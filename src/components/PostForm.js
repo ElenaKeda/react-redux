@@ -12,7 +12,15 @@ export default class PostForm extends React.Component {
   onSubmitHandler = (event) => {
     event.preventDefault();
 
-    console.log(this.state.title);
+    const { title } = this.state;
+    const newPost = {
+      title,
+      id: Date.now().toString(),
+    };
+
+    this.setState({ title: "" });
+
+    console.log({ newPost });
   };
 
   changeInputHandler = (event) => {
