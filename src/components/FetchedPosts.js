@@ -2,10 +2,16 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPost } from "../redux/actions";
 import { Post } from "./Post";
+import { Spinner } from "./Spinner";
 
 export const FetchedPosts = () => {
   const dispatch = useDispatch();
   const fetchPosts = useSelector((state) => state.posts.fetchedPosts);
+  const loading = useSelector((state) => state.app.loading);
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   if (!fetchPosts?.length) {
     return (
