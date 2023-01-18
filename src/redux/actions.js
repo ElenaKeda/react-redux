@@ -1,8 +1,8 @@
 import {
   CREATE_POST,
-  FETCH_POST,
   HIDE_ALERT,
   HIDE_LOADER,
+  REQUEST_POSTS,
   SHOW_ALERT,
   SHOW_LOADER,
 } from "./types";
@@ -32,19 +32,5 @@ export function hideWarningMessage() {
 }
 
 export function fetchPost() {
-  return async (dispatch) => {
-    try {
-      dispatch(showLoader());
-      const response = await fetch(
-        "https://jsonplaceholder.typicode.com/posts?_limit=5"
-      );
-      const json = await response.json();
-
-      dispatch({ type: FETCH_POST, payload: json });
-    } catch (e) {
-      dispatch(showWarningMessage("Something went wrong!"));
-    } finally {
-      dispatch(hideLoader());
-    }
-  };
+  return { type: REQUEST_POSTS };
 }
