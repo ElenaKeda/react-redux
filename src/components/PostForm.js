@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-import { createPost } from "../redux/actions";
+import { createPost, showWarningMessage } from "../redux/actions";
+import { WarningMessage } from "./WarningMessage";
 
 class PostForm extends React.Component {
   constructor(props) {
@@ -16,7 +17,9 @@ class PostForm extends React.Component {
 
     const { title } = this.state;
 
-    if (!title.trim()) return;
+    if (!title.trim()) {
+      return this.props.showWarningMessage("Post length cannot be less than 0");
+    }
 
     const newPost = {
       title,
@@ -44,6 +47,8 @@ class PostForm extends React.Component {
   render() {
     return (
       <form onSubmit={this.onSubmitHandler}>
+        {this.props.alert && <WarningMessage alert={this.props.alert} />}
+
         <div className="mb-3">
           <label htmlFor="title" className="form-label">
             Post title
@@ -67,6 +72,8 @@ class PostForm extends React.Component {
 
 const mapDispatchToProps = {
   createPost: createPost,
+  showWarningMessage: showWarningMessage,
 };
 
-export default connect(null, mapDispatchToProps)(PostForm);
+const mapStateToProps = (state) => ({ alert: state.app.alert });
+export default connect(mapStateToProps, mapDispatchToProps)(PostForm);
